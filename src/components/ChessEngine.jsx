@@ -34,6 +34,7 @@ const directions = {
 };
 
 const ChessEngine = () => {
+  const [moveHistory, setMoveHistory] = useState([]); // New state for move history
   const [board, setBoard] = useState(initialBoard);
   const [selected, setSelected] = useState(null);
   const [turn, setTurn] = useState('w'); // 'w' for white, 'b' for black
@@ -437,8 +438,14 @@ const ChessEngine = () => {
             }
           }
 
+          // Record the captured piece before moving
+          const capturedPiece = newBoard[row][col];
           newBoard[row][col] = newBoard[selected[0]][selected[1]];
           newBoard[selected[0]][selected[1]] = null;
+          
+          // Add move to history
+          addMoveToHistory([selected[0], selected[1]], [row, col], piece, capturedPiece);
+          
           setBoard(newBoard);
           setSelected(null);
           setPossibleMoves([]);
@@ -498,6 +505,35 @@ const ChessEngine = () => {
     return filterLegalMoves(board, row, col, rawMoves);
   };
 
+  // Add move to history
+  const addMoveToHistory = (from, to, piece, capturedPiece) => {
+    const move = {
+      from: [...from],
+      to: [...to],
+      piece: piece,
+      capturedPiece: capturedPiece
+    };
+    setMoveHistory(prev => [...prev, move]);
+  };
+
+  // Undo the last move
+  const undoMove = () => {
+    if (moveHistory.length === 0) return; // No moves to undo
+    
+    const lastMove = moveHistory[moveHistory.length - 1];
+    const newBoard = board.map(r => r.slice());
+
+    // Revert the move
+    newBoard[lastMove.from[0]][lastMove.from[1]] = lastMove.piece;
+    newBoard[lastMove.to[0]][lastMove.to[1]] = lastMove.capturedPiece;
+
+    setBoard(newBoard);
+    setMoveHistory(prev => prev.slice(0, -1)); // Remove last move from history
+    setTurn(turn === 'w' ? 'b' : 'w'); // Switch turn back
+    setSelected(null);
+    setPossibleMoves([]);
+  };
+
   const restartGame = () => {
     setBoard(initialBoard);
     setSelected(null);
@@ -505,6 +541,7 @@ const ChessEngine = () => {
     setPossibleMoves([]);
     setGameStatus('ongoing');
     setInCheck(false);
+    setMoveHistory([]);
     setMovedPieces({
       wK: false,
       wRLeft: false,
@@ -560,6 +597,37 @@ const ChessEngine = () => {
         <h2 className="turn-indicator" style={{ fontSize: '1.8rem', marginTop: '1rem', textAlign: 'center' }}>
           Turn: {turn === 'w' ? 'White' : 'Black'}{inCheck ? ' (Check)' : ''}
         </h2>
+        <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
+          <button
+            onClick={undoMove}
+            disabled={moveHistory.length === 0}
+            style={{
+              padding: '0.5rem 1rem',
+              fontSize: '1rem',
+              backgroundColor: moveHistory.length === 0 ? '#ccc' : '#007bff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: moveHistory.length === 0 ? 'not-allowed' : 'pointer'
+            }}
+          >
+            Undo Move
+          </button>
+          <button
+            onClick={restartGame}
+            style={{
+              padding: '0.5rem 1rem',
+              fontSize: '1rem',
+              backgroundColor: '#dc3545',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Restart Game
+          </button>
+        </div>
         {gameStatus === 'checkmate' && (
           <>
             {/* Removed black overlay div */}

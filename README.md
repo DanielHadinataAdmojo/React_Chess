@@ -7,11 +7,14 @@ A modern, interactive chess game built with React and Vite. Play chess with a fu
 ### ✅ Core Chess Engine
 - **Complete Chess Rules Implementation**
   - All standard piece movements (pawn, rook, knight, bishop, queen, king)
-  - Check and checkmate detection
+  - Check and checkmate detection with king highlighting
   - Castling (kingside and queenside)
   - En passant captures
-  - Pawn promotion with piece selection
+  - Pawn promotion with interactive piece selection UI
   - Stalemate detection
+  - Move history tracking
+  - Undo move functionality
+  - Game restart capability
 
 ### ✅ Interactive Chess Board
 - **Visual Chess Board**: 8x8 grid with proper square coloring
@@ -41,7 +44,7 @@ src/
 │   ├── ChessBoard.jsx      # Visual chess board component
 │   ├── ChessEngine.jsx     # Main chess game logic and state
 │   ├── ChessGame.jsx       # Alternative game component (legacy)
-│   └── ChessBoard.css      # Board styling
+│   └── ChessBoard.css      # Board styling (deprecated, replaced by Tailwind CSS)
 ├── utils/
 │   └── notation.js         # Chess notation utilities
 ├── assets/
@@ -101,13 +104,13 @@ npm run build
 - **React 18** - UI framework
 - **Vite** - Build tool and development server
 - **JavaScript ES6+** - Modern JavaScript features
-- **CSS** - Styling with modern features
+- **Tailwind CSS** - Utility-first CSS framework for styling
 
 ## 🎯 Roadmap
 
 ### Planned Features
 - [ ] AI opponent with difficulty levels
-- [ ] Move history and undo functionality
+- [x] Move history and undo functionality
 - [ ] Save/load game state
 - [ ] Chess notation display (PGN format)
 - [ ] Timer/clock functionality
