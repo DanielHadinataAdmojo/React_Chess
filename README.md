@@ -1,4 +1,4 @@
-# React Chess Game
+# Chess Game
 
 A modern, interactive chess game built with React and Vite. Play chess with a fully functional chess engine featuring complete chess rules, piece movement validation, and game state management.
 
@@ -48,15 +48,17 @@ src/
 ├── utils/
 │   └── notation.js         # Chess notation utilities
 ├── assets/
-│   └── ChessAssets/        # Chess piece images
+│   └── ChessAssets/        # Chess piece images (PNG files for each piece)
 ├── App.jsx                 # Main application component
-└── main.jsx               # Application entry point
+├── App.css                 # Application styles
+├── main.jsx                # Application entry point
+└── index.css               # Global styles
 ```
 
 ## 🎮 How to Play
 
 1. **Start the Game**: The board initializes in standard chess starting position
-2. **Make Moves**: 
+2. **Make Moves**:
    - Click on a piece to select it (highlighted in yellow)
    - Click on a highlighted square to move the piece
    - Only legal moves are shown as highlighted squares
@@ -78,7 +80,7 @@ src/
 git clone [repository-url]
 
 # Navigate to project directory
-cd react-chess-game
+cd chess
 
 # Install dependencies
 npm install
@@ -131,7 +133,7 @@ Contributions are welcome! Please feel free to submit issues and pull requests.
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is open source and available under the MIT License.
 
 ## 🙏 Acknowledgments
 
